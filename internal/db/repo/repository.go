@@ -1,7 +1,7 @@
-package server
+package repo
 
 import (
-	"auth/server/models"
+	"auth/internal/db/models"
 	"errors"
 	"golang.org/x/crypto/bcrypt"
 )

@@ -2,6 +2,7 @@ package server
 
 import (
 	"auth/configs"
+	"auth/internal/db/repo"
 	"encoding/json"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
@@ -26,7 +27,7 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		user, err := NewUserRepository().GetUserByEmail(req.Email)
+		user, err := repo.NewUserRepository().GetUserByEmail(req.Email)
 		if err != nil {
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
@@ -84,7 +85,7 @@ func (h *UserHandler) GetProfile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		user, err := NewUserRepository().GetUserById(claims.ID)
+		user, err := repo.NewUserRepository().GetUserById(claims.ID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
