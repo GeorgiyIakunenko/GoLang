@@ -1,13 +1,14 @@
 package server
 
 import (
+	"auth/configs"
 	"log"
 	"net/http"
 )
 
 func Start() {
 
-	cfg := NewConfig()
+	cfg := configs.NewConfig()
 
 	authHandler := NewAuthHandler(cfg)
 	userHandler := NewUserHandler(cfg)

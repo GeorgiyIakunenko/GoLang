@@ -1,12 +1,13 @@
 package server
 
 import (
+	"auth/server/models"
 	"errors"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserRepository struct {
-	users []*User
+	users []*models.User
 }
 
 func NewUserRepository() *UserRepository {
@@ -14,7 +15,7 @@ func NewUserRepository() *UserRepository {
 	p1, _ := bcrypt.GenerateFromPassword([]byte("111111111111"), bcrypt.DefaultCost)
 	p2, _ := bcrypt.GenerateFromPassword([]byte("123123123"), bcrypt.DefaultCost)
 
-	users := []*User{
+	users := []*models.User{
 		{
 
 			ID:       1,
@@ -33,7 +34,7 @@ func NewUserRepository() *UserRepository {
 	return &UserRepository{users: users}
 }
 
-func (r *UserRepository) GetUserByEmail(email string) (*User, error) {
+func (r *UserRepository) GetUserByEmail(email string) (*models.User, error) {
 	for _, user := range r.users {
 		if user.Email == email {
 			return user, nil
@@ -43,7 +44,7 @@ func (r *UserRepository) GetUserByEmail(email string) (*User, error) {
 	return nil, errors.New("user not found")
 }
 
-func (r *UserRepository) GetUserById(id int) (*User, error) {
+func (r *UserRepository) GetUserById(id int) (*models.User, error) {
 	for _, user := range r.users {
 		if user.ID == id {
 			return user, nil

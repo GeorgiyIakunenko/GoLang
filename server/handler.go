@@ -1,17 +1,17 @@
 package server
 
 import (
+	"auth/configs"
 	"encoding/json"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
 
 type AuthHandler struct {
-	cfg *Config
+	cfg *configs.Config
 }
 
-func NewAuthHandler(cfg *Config) *AuthHandler {
-
+func NewAuthHandler(cfg *configs.Config) *AuthHandler {
 	return &AuthHandler{
 		cfg: cfg,
 	}
@@ -63,10 +63,10 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 type UserHandler struct {
-	cfg *Config
+	cfg *configs.Config
 }
 
-func NewUserHandler(cfg *Config) *UserHandler {
+func NewUserHandler(cfg *configs.Config) *UserHandler {
 	return &UserHandler{
 		cfg: cfg,
 	}
