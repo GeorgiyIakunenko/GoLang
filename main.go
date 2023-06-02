@@ -1,19 +1,43 @@
 package main
 
 import (
-	"auth/configs"
+	"database/sql"
 	"fmt"
-	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"log"
-	"os"
 )
 
 func main() {
 
-	err := godotenv.Load("configs/.env")
+	//connStr := "postgres://postgres:postgres@localhost:5432/dbdata"
+	connStr1 := "postgres://dbdata:dbdpsw@localhost:5432/dbdata"
+	db, err := sql.Open("postgres", connStr1)
+
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		panic(err)
 	}
-	fmt.Println("Server is running on the port " + os.Getenv("PORT"))
-	configs.Start()
+
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	user, err := db.Query("SELECT id,first_name, last_name FROM person")
+
+	for user.Next() {
+		var (
+			id         int
+			first_name string
+			last_name  string
+		)
+
+		err := user.Scan(&id, &first_name, &last_name)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%d %s %s \n", id, first_name, last_name)
+	}
+
 }
