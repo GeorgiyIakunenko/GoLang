@@ -1,0 +1,10 @@
+{
+"id": 1,
+"name": "Pizza Club",
+"type": "restaurant",
+"image": "https://play-lh.googleusercontent.com/qMewibe3u5Wvq3fBf3Ca3_QItjHCOKeGrOAzVXWxqzgRpMwxYlD5CA6M2M5L78SwNA",
+"workingHours": {
+"opening": "09:00",
+"closing": "20:00"
+}
+}
