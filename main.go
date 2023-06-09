@@ -7,5 +7,7 @@ import (
 
 func main() {
 	fmt.Println("dfdsfsf")
+	fmt.Printf("ssh test")
 	server.Start()
+
 }
