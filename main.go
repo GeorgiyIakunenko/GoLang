@@ -2,32 +2,47 @@ package main
 
 import (
 	"fmt"
-	"http/handler"
-	"io"
-	"net/http"
+	"runtime"
+	"time"
 )
 
 func main() {
-	mux := http.NewServeMux()
+	//fmt.Printf("concurrency")
 
-	mux.HandleFunc("/suppliers", handler.GetAllSuppliers)
+	done := make(chan bool)
+	fmt.Printf("type of channel : %T\n", done)
 
-	mux.HandleFunc("/suppliers/2", handler.GetAllSuppliers)
+	go hello(done)
 
-	resp, err := http.Get("https://foodapi.golang.nixdev.co/suppliers")
-	if err != nil {
-		fmt.Errorf("Can't fetch data: %v", err)
-		return
+	<-done
+
+	runtime.GOMAXPROCS(1)
+	go numbers()
+	go letters()
+
+	fmt.Printf("main goruitine")
+}
+
+func numbers() {
+	for i := 1; i < 20; i++ {
+		time.Sleep(time.Millisecond * 200)
+		fmt.Printf("%d ", i)
 	}
+}
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		panic(err)
+func letters() {
+	for i := 'a'; i <= 'e'; i++ {
+		time.Sleep(time.Millisecond * 400)
+		fmt.Printf("%c ", i)
 	}
+}
 
-	fmt.Printf(string(body))
-
-	http.ListenAndServe(":8080", mux)
-
-	fmt.Printf("server is running")
+func hello(done chan bool) {
+	fmt.Printf("hello world goroutine\n")
+	for i := 1; i < 4; i++ {
+		time.Sleep(time.Millisecond * 200)
+		fmt.Printf("%d ", i)
+	}
+	fmt.Printf("\n")
+	done <- true
 }
