@@ -2,8 +2,10 @@ package file
 
 import (
 	"encoding/json"
+	"fmt"
 	"http/data/model"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -93,4 +95,34 @@ func (r *SuppliersRepository) UpdateSupplierById(id int, newSup model.Supplier) 
 
 	return nil
 
+}
+
+func (r *SuppliersRepository) RefreshSuppliers(data []*model.Supplier) error {
+
+	if err := os.RemoveAll(r.Directory); err != nil {
+		return fmt.Errorf("failed to clean directory: %v", err)
+	}
+
+	if err := os.MkdirAll(r.Directory, 0755); err != nil {
+		return fmt.Errorf("failed to create directory: %v", err)
+	}
+
+	for _, supplier := range data {
+		supplierData, err := json.Marshal(supplier)
+		if err != nil {
+			log.Printf("Error encoding supplier: %v", err)
+			return err
+		}
+
+		filePath := filepath.Join(r.Directory, strconv.Itoa(supplier.Id)+".json")
+
+		if err := ioutil.WriteFile(filePath, supplierData, 0644); err != nil {
+			log.Printf("Error writing supplier file: %v", err)
+			return err
+		}
+
+		log.Printf("Supplier file created: %s", filePath)
+	}
+
+	return nil
 }

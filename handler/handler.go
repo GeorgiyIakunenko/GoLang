@@ -8,6 +8,7 @@ import (
 	"http/data/model"
 	"http/data/repository/file"
 	"http/response"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -142,4 +143,37 @@ func DeleteOrderById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.SendOK(w, "OrderDeletedSuccessfully")
+}
+
+func RefreshSuppliers(w http.ResponseWriter, r *http.Request) {
+	resp, err := http.Get("https://foodapi.golang.nixdev.co/suppliers")
+	if err != nil {
+		http.Error(w, fmt.Errorf("Can't fetch data: %v", err).Error(), http.StatusInternalServerError)
+		return
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var data struct {
+		Suppliers []*model.Supplier `json:"suppliers"`
+	}
+
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		response.SendServerError(w, err)
+		return
+	}
+	s := file.NewSuppliersRepository()
+	err = s.RefreshSuppliers(data.Suppliers)
+	if err != nil {
+		response.SendBadRequestError(w, err)
+	}
+
+	response.SendOK(w, "RefreshSuppliers is done")
 }
