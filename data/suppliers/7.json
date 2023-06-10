@@ -1,10 +1,10 @@
 {
-  "id": 2,
-  "name": "Burger Club",
-  "type": "restaurant",
-  "image": "https://eda.ua/images/506509-195-195-burger_club_harkov.jpg",
+  "id": 7,
+  "name": "Linea Caffe",
+  "type": "coffee_shop",
+  "image": "https://lineacaffe.com/wp-content/themes/lineacaffe/images/linea-logo.svg",
   "workingHours": {
-    "opening": "10:00",
-    "closing": "20:00"
+    "opening": "07:00",
+    "closing": "19:00"
   }
 }

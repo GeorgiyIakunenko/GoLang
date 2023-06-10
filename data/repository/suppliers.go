@@ -1,5 +1,8 @@
 package repository
 
+import "http/data/model"
+
 type SuppliersRepository interface {
-	GetAll() ([]byte, error)
+	GetAll() ([]*model.Supplier, error)
+	GetById() (*model.Supplier, error)
 }

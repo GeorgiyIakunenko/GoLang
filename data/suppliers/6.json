@@ -1,10 +1,1 @@
-{
-  "id": 2,
-  "name": "Burger Club",
-  "type": "restaurant",
-  "image": "https://eda.ua/images/506509-195-195-burger_club_harkov.jpg",
-  "workingHours": {
-    "opening": "10:00",
-    "closing": "20:00"
-  }
-}
+{"id":6,"name":"Saint Frank Coffee","type":"coffee_shop","image":"http://cdn.shopify.com/s/files/1/1578/1589/files/colorf-01_198x200.png","workingHours":{"opening":"12:00","closing":"18:00"}}

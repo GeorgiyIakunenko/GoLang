@@ -1,5 +1,7 @@
 package repository
 
+import "http/data/model"
+
 type OrdersRepository interface {
-	Create() error
+	Create(orderData model.Order) error
 }

@@ -7,8 +7,9 @@ type Address struct {
 }
 
 type Order struct {
+	Id         int     `json:"id"`
+	SupplierId int     `json:"supplier_id"`
 	UserId     int     `json:"user_id"`
 	Address    Address `json:"address"`
-	SupplierId int     `json:"supplier_id"`
 	Status     string  `json:"status"`
 }
